@@ -2,14 +2,14 @@ from distutils.core import setup
 
 add_keywords = dict(
     entry_points = {
-        'console_scripts': ['enter = definition.definition:main'],
+        'console_scripts': ['definition = definition.definition:main'],
     },
 )
 
 setup(
         name='definition',
         description='Definition fetcher from 5 online dictionaries',
-        version='0.0.1',
+        version='0.0.2',
         packages=['definition'],
         license='GPLv3+',
         author='Shubham Chaudhary',
