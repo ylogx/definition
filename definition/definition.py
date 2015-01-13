@@ -181,7 +181,7 @@ def get_definition(query):
 def print_usage():
     print 'Usage: -w -a -r -p -e';
 
-def main(argv):
+def main(argv=sys.argv):
     usage = "%prog [-p] [-r [INT]] [-e [INT]] query"#%sys.argv[0];
     parser = OptionParser(usage=usage, version="%prog 1.0")
     parser.add_option("-w", "--word", action="store_true", dest="wordOfDay", default=False,
