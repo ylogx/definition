@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import sys
+import definition.definition
+
+try:
+    sys.exit(definition.definition.main())
+except KeyboardInterrupt:
+    sys.exit(1)
