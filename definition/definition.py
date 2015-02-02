@@ -18,7 +18,8 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import requests, sys, urllib2;
+import requests
+import sys;
 from wordnik import *
 from optparse import OptionParser
 
@@ -39,7 +40,7 @@ def random_words(count = 10):
     wordsapi = WordsApi.WordsApi(client)
     rns = wordsapi.getRandomWords();
     for i in range(min(len(rns),count)):
-        print '%d:'%(i+1),rns[i].word;
+        print('%d:'%(i+1),rns[i].word)
 
     return;
 
@@ -66,9 +67,9 @@ def get_pronunciation(query,send_one=0):
     if send_one:
         return pro[0].raw;
     else:
-        print get_hyphenation(query);
+        print(get_hyphenation(query))
         for p in pro:
-            print p.raw;
+            print(p.raw)
     return;
 
 def reverse_dictionary_search(query):
@@ -102,7 +103,7 @@ def get_examples(query,limit=5):
     facets_list = examples.facets;
     if facets_list:
         for i in range(len(facets_list)):
-            print '\n%d: '%(i+1) + facets_list[i].text;
+            print('\n%d: '%(i+1) + facets_list[i].text)
 
     return out;
 
@@ -120,14 +121,14 @@ def get_top_example(query):
 
 def get_definition_api(query):
     wordapi = WordApi.WordApi(client)
-    print 'Searching on the Internet for %s:'%query;
+    print('Searching on the Internet for %s:'%query)
     definitions = wordapi.getDefinitions(query,sourceDictionaries='all',includeRelated='true',useCanonical='false',includeTags='false')
     if not definitions:
         definitions = wordapi.getDefinitions(query,sourceDictionaries='all',includeRelated='true',useCanonical='true',includeTags='false')
         if not definitions:
-            print 'Sorry, nothing found';
+            print('Sorry, nothing found')
             return '';
-    print definitions[0].word, get_pronunciation(query,1), ':';
+    print(definitions[0].word, get_pronunciation(query,1), ':')
 
 #         else:
 #             print 'Note: Using Canonical form of',query;
@@ -151,16 +152,16 @@ def get_definition_api(query):
                 source_name = 'WordNet' #'WordNet, Princeton University'
 #             print '\n---->',source_name,'<----';
             dic_count += 1;
-            print '%d: %s -->'%(dic_count,source_name);
+            print('%d: %s -->'%(dic_count,source_name))
             previous = source;
         if defs.partOfSpeech:
-            print '(%s)'%defs.partOfSpeech[0],;
+            print('(%s)'%defs.partOfSpeech[0], end='')
         else:
-            print '( )',;
-        print defs.text ;
+            print('( )', end='')
+        print(defs.text)
         #print '(%s)'%defs.partOfSpeech[0],defs.text ;
         #print defs.sourceDictionary,':',defs.text ;
-    print '\n', get_top_example(query);
+    print('\n', get_top_example(query))
     return '';
 
 def get_definition(query):
@@ -179,7 +180,7 @@ def get_definition(query):
     return result;
 
 def print_usage():
-    print 'Usage: -w -a -r -p -e';
+    print('Usage: -w -a -r -p -e')
 
 def main(argv=sys.argv):
     usage = "%prog [-p] [-r [INT]] [-e [INT]] query"#%sys.argv[0];
@@ -202,7 +203,7 @@ def main(argv=sys.argv):
         query = args[0];
 
     if options.wordOfDay:
-        print get_word_of_the_day();
+        print(get_word_of_the_day())
         return;
 
     if options.random:
@@ -210,21 +211,21 @@ def main(argv=sys.argv):
 
     if options.pronunciation:
         if not query:
-            print 'No query specified for pronunciation';
+            print('No query specified for pronunciation')
             query = raw_input('Enter query: ').strip();
             if not query: return;
         return get_pronunciation(query);
 
     if options.example:
-        print get_examples(query,options.example),;
+        print(get_examples(query,options.example), end='')
         return;
 
     if options.xamples:
         if not query:
-            print 'No query specified for examples';
+            print('No query specified for examples')
             query = raw_input('Enter query: ').strip();
             if not query: return;
-        print get_examples(query),;
+        print(get_examples(query), end='')
         return;
 
     if query:
@@ -243,9 +244,7 @@ if __name__ == '__main__':
     try:
         main(sys.argv);
     except KeyboardInterrupt:
-        print '\nExiting gracefully';
-    except urllib2.URLError:
-        print '\nNetwork Error:', sys.exc_info()[1];
+        print('\nExiting gracefully')
 #     except:
 #         print '\nOops, Unknown Error:', sys.exc_info()[1];
 #         raise;
