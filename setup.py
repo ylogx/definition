@@ -6,6 +6,10 @@ add_keywords = dict(
     },
 )
 
+fhan = open('README.txt')
+long_description = fhan.read()
+fhan.close()
+
 setup(
         name='definition',
         description='Definition fetcher from 5 online dictionaries',
@@ -15,7 +19,7 @@ setup(
         author='Shubham Chaudhary',
         author_email='me@shubhamchaudhary.in',
         url='https://github.com/shubhamchaudhary/definition',
-        long_description=open('README.txt').read(),
+        long_description=long_description,
         **add_keywords
 )
 
