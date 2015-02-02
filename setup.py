@@ -13,7 +13,7 @@ fhan.close()
 setup(
         name='definition',
         description='Definition fetcher from 5 online dictionaries',
-        version='0.0.2',
+        version='0.0.3',
         packages=['definition'],
         license='GPLv3+',
         author='Shubham Chaudhary',
