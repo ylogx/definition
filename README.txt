@@ -1,5 +1,11 @@
 Definition
-=========
+==========
+
+| Version | Downloads |
+| ------- | ------------------- |
+| [![Latest Version](https://img.shields.io/pypi/v/definition.svg)](https://pypi.python.org/pypi/definition/) | [![PyPi downloads](https://img.shields.io/pypi/dm/definition.svg)](https://pypi.python.org/pypi/definition) |
+
+
 
 Fetch definition from 5 or more online dictionaries
 Available easily from PyPi
