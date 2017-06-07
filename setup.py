@@ -9,13 +9,15 @@ add_keywords = dict(
 fhan = open('requirements.txt', 'rU')
 requires = [line.strip() for line in fhan.readlines()]
 fhan.close()
+long_description = ''
 try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
+    if os.path.isfile('README.md'):
+        import pypandoc
+        long_description = pypandoc.convert('README.md', 'rst')
 except (IOError, ImportError):
-    fhan = open('README.txt')
-    long_description = fhan.read()
-    fhan.close()
+    if os.path.isfile('README.txt'):
+        with open('README.txt') as fhan:
+            long_description = fhan.read()
 
 setup(
         name='definition',
