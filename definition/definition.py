@@ -193,6 +193,7 @@ def get_definition(query):
         raise
 
     # http://api.wordnik.com:80/v4/word.json/discrimination/definitions?limit=200&includeRelated=true&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
+    import json
     payload = {'q': query, 'limit': 200, 'includeRelated': 'true', 'sourceDictionaries': 'all',
                'useCanonical': 'false', 'includeTags': 'false',
                'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'}
@@ -237,7 +238,8 @@ def main(argv=sys.argv):
         if not query:
             print('No query specified for pronunciation')
             query = input('Enter query: ').strip()
-            if not query: return
+            if not query:
+                return
         return get_pronunciation(query)
 
     if options.example:
@@ -248,7 +250,8 @@ def main(argv=sys.argv):
         if not query:
             print('No query specified for examples')
             query = input('Enter query: ').strip()
-            if not query: return
+            if not query:
+                return
         print(get_examples(query), end='')
         return
 

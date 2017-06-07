@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 add_keywords = dict(
-    entry_points = {
+    entry_points={
         'console_scripts': ['definition = definition.definition:main'],
     },
 )
@@ -30,4 +30,3 @@ setup(
         install_requires=requires,
         **add_keywords
 )
-
