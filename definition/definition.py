@@ -21,7 +21,7 @@
 from __future__ import print_function
 
 import requests
-import sys;
+import sys
 from wordnik import *
 from optparse import OptionParser
 
@@ -34,90 +34,90 @@ client = swagger.ApiClient(apiKey, apiUrl)
 
 def get_word_of_the_day():
     wordsapi = WordsApi.WordsApi(client)
-    ret = wordsapi.getWordOfTheDay();
-    out = 'Word of the day: ' + ret.word;
-    return out;
+    ret = wordsapi.getWordOfTheDay()
+    out = 'Word of the day: ' + ret.word
+    return out
 
 def random_words(count = 10):
     wordsapi = WordsApi.WordsApi(client)
-    rns = wordsapi.getRandomWords();
+    rns = wordsapi.getRandomWords()
     for i in range(min(len(rns),count)):
         print('%d:'%(i+1),rns[i].word)
 
-    return;
+    return
 
 def get_hyphenation(query):
     wordapi = WordApi.WordApi(client)
-    hyphenation = wordapi.getHyphenation(query);
+    hyphenation = wordapi.getHyphenation(query)
     if not hyphenation:
-        return '';
-    out = '';
+        return ''
+    out = ''
     for hyphen in hyphenation:
-        out += hyphen.text;
+        out += hyphen.text
         if hyphen.type:
-            out += '('+hyphen.type+')';
-        out += ' - ';
-    return out[:-3];
+            out += '('+hyphen.type+')'
+        out += ' - '
+    return out[:-3]
 
 def get_pronunciation(query,send_one=0):
     wordapi = WordApi.WordApi(client)
-    pro = wordapi.getTextPronunciations(query);
+    pro = wordapi.getTextPronunciations(query)
     if not pro:
-        pro = wordapi.getTextPronunciations(query,useCanonical='true');
+        pro = wordapi.getTextPronunciations(query,useCanonical='true')
         if not pro:
-            return '';
+            return ''
     if send_one:
-        return pro[0].raw;
+        return pro[0].raw
     else:
         print(get_hyphenation(query))
         for p in pro:
             print(p.raw)
-    return;
+    return
 
 def reverse_dictionary_search(query):
-    return NotImplemented;
+    return NotImplemented
 
 def search_from_part_of_word(query):
-    return NotImplemented;
+    return NotImplemented
 
 def related_words(query):
-    return NotImplemented;
+    return NotImplemented
 
 def get_audio(query):
-    return NotImplemented;
+    return NotImplemented
 
 def get_examples(query,limit=5):
     wordapi = WordApi.WordApi(client)
-    examples = wordapi.getExamples(query,limit=limit);
+    examples = wordapi.getExamples(query,limit=limit)
     if not examples:
-        examples = wordapi.getExamples(query,limit=limit,useCanonical='true');
+        examples = wordapi.getExamples(query,limit=limit,useCanonical='true')
         if not examples:
-            examples = wordapi.getExamples(query,limit=limit,useCanonical='true',includeDuplicates='true');
+            examples = wordapi.getExamples(query,limit=limit,useCanonical='true',includeDuplicates='true')
             if not examples:
-                return '';
+                return ''
     out = ''
-    examples_list = examples.examples;
+    examples_list = examples.examples
     if examples_list:
         for i in range(len(examples_list)):
-            out += '%d: '%(i+1) + examples_list[i].text + '\n';
+            out += '%d: '%(i+1) + examples_list[i].text + '\n'
 
     #XXX: Experimental
-    facets_list = examples.facets;
+    facets_list = examples.facets
     if facets_list:
         for i in range(len(facets_list)):
             print('\n%d: '%(i+1) + facets_list[i].text)
 
-    return out;
+    return out
 
 def get_top_example(query):
     wordapi = WordApi.WordApi(client)
-    top = wordapi.getTopExample(query);
+    top = wordapi.getTopExample(query)
     if not top:
-        top = wordapi.getTopExample(query,useCanonical='true');
+        top = wordapi.getTopExample(query,useCanonical='true')
         if not top:
-            return '';
-    out = 'Top Example: '+top.text;
-    return out;
+            return ''
+    out = 'Top Example: '+top.text
+    return out
 
 
 
@@ -129,19 +129,19 @@ def get_definition_api(query):
         definitions = wordapi.getDefinitions(query,sourceDictionaries='all',includeRelated='true',useCanonical='true',includeTags='false')
         if not definitions:
             print('Sorry, nothing found')
-            return '';
+            return ''
     print(definitions[0].word, get_pronunciation(query,1), ':')
 
 #         else:
-#             print 'Note: Using Canonical form of',query;
+#             print 'Note: Using Canonical form of',query
 #     else:
-#         print query, get_pronunciation(query,1), ':';
-    previous = '';
-    dic_count = 0;
+#         print query, get_pronunciation(query,1), ':'
+    previous = ''
+    dic_count = 0
     for defs in definitions:
-        source = defs.sourceDictionary;
+        source = defs.sourceDictionary
         if source != previous:
-            source_name = source;
+            source_name = source
             if source == 'gcide':
                 source_name = 'GNU CIDE' #'GNU Collaborative International Dictionary of English'
             elif source == 'ahd-legacy':
@@ -152,40 +152,40 @@ def get_definition_api(query):
                 source_name = 'Century' #'Century Dictionary and Cyclopedia'
             elif source == 'wordnet':
                 source_name = 'WordNet' #'WordNet, Princeton University'
-#             print '\n---->',source_name,'<----';
-            dic_count += 1;
+#             print '\n---->',source_name,'<----'
+            dic_count += 1
             print('%d: %s -->'%(dic_count,source_name))
-            previous = source;
+            previous = source
         if defs.partOfSpeech:
             print('(%s)'%defs.partOfSpeech[0], end='')
         else:
             print('( )', end='')
         print(defs.text)
-        #print '(%s)'%defs.partOfSpeech[0],defs.text ;
-        #print defs.sourceDictionary,':',defs.text ;
+        #print '(%s)'%defs.partOfSpeech[0],defs.text
+        #print defs.sourceDictionary,':',defs.text
     print('\n', get_top_example(query))
-    return '';
+    return ''
 
 def get_definition(query):
     """Returns dictionary of id, first names of people who posted on my wall
     between start and end time"""
     try:
-        return get_definition_api(query);
+        return get_definition_api(query)
     except:
-        raise;
+        raise
 
     # http://api.wordnik.com:80/v4/word.json/discrimination/definitions?limit=200&includeRelated=true&sourceDictionaries=all&useCanonical=false&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5
     payload = {'q': query,'limit':200,'includeRelated':'true','sourceDictionaries':'all','useCanonical':'false','includeTags':'false','api_key':'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'}
-    url = 'http://api.wordnik.com:80/v4/word.json/%s/definitions'%query;
+    url = 'http://api.wordnik.com:80/v4/word.json/%s/definitions'%query
     r = requests.get(url, params=payload)
     result = json.loads(r.text)
-    return result;
+    return result
 
 def print_usage():
     print('Usage: -w -a -r -p -e')
 
 def main(argv=sys.argv):
-    usage = "%prog [-p] [-r [INT]] [-e [INT]] query"#%sys.argv[0];
+    usage = "%prog [-p] [-r [INT]] [-e [INT]] query"#%sys.argv[0]
     parser = OptionParser(usage=usage, version="%prog 1.0")
     parser.add_option("-w", "--word", action="store_true", dest="wordOfDay", default=False,
                       help='Show the word of the day')
@@ -202,51 +202,51 @@ def main(argv=sys.argv):
 
     query = ''
     if args:
-        query = args[0];
+        query = args[0]
 
     if options.wordOfDay:
         print(get_word_of_the_day())
-        return;
+        return
 
     if options.random:
-        return random_words(count=10);
+        return random_words(count=10)
 
     if options.pronunciation:
         if not query:
             print('No query specified for pronunciation')
-            query = raw_input('Enter query: ').strip();
-            if not query: return;
-        return get_pronunciation(query);
+            query = raw_input('Enter query: ').strip()
+            if not query: return
+        return get_pronunciation(query)
 
     if options.example:
         print(get_examples(query,options.example), end='')
-        return;
+        return
 
     if options.xamples:
         if not query:
             print('No query specified for examples')
-            query = raw_input('Enter query: ').strip();
-            if not query: return;
+            query = raw_input('Enter query: ').strip()
+            if not query: return
         print(get_examples(query), end='')
-        return;
+        return
 
     if query:
-        return get_definition_api(query);
+        return get_definition_api(query)
 
-    parser.print_help();
+    parser.print_help()
 
-    return;
-#     return random_words();
-#     print 'Please specify the search word after %s option'%argv[1];
-#     return random_words(int(argv[2]));
-#     print get_examples(argv[2],int(argv[3])),;
-#     print_usage();
+    return
+#     return random_words()
+#     print 'Please specify the search word after %s option'%argv[1]
+#     return random_words(int(argv[2]))
+#     print get_examples(argv[2],int(argv[3])),
+#     print_usage()
 
 if __name__ == '__main__':
     try:
-        main(sys.argv);
+        main(sys.argv)
     except KeyboardInterrupt:
         print('\nExiting gracefully')
 #     except:
-#         print '\nOops, Unknown Error:', sys.exc_info()[1];
-#         raise;
+#         print '\nOops, Unknown Error:', sys.exc_info()[1]
+#         raise
