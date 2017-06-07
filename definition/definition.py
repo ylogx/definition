@@ -22,12 +22,15 @@ from __future__ import print_function
 
 import requests
 import sys
-from wordnik import *
+
+from wordnik import swagger
+from wordnik import WordApi
+from wordnik import WordsApi
 from optparse import OptionParser
 
 apiUrl = 'http://api.wordnik.com/v4'
 apiKey = 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
-apiKey = '9c20e2ed369b002e580010499c40f84816050d822330fadbd' #Get your own freaking key ! ! !
+apiKey = '9c20e2ed369b002e580010499c40f84816050d822330fadbd'  # Get your own freaking key ! ! !
 
 client = swagger.ApiClient(apiKey, apiUrl)
 # wordapi = WordApi.WordApi(client)
