@@ -22,7 +22,7 @@ except (IOError, ImportError):
 setup(
         name='definition',
         description='Definition fetcher from 5 online dictionaries',
-        version='0.1.0',
+        version='0.1.1',
         packages=['definition'],
         license='GPLv3+',
         author='Shubham Chaudhary',
