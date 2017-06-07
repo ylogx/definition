@@ -1,6 +1,8 @@
 Definition
 ==========
 
+[![Join the chat at https://gitter.im/shubhamchaudhary/definition](https://badges.gitter.im/shubhamchaudhary/definition.svg)](https://gitter.im/shubhamchaudhary/definition?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 | Version | Downloads |
 | ------- | ------------------- |
 | [![Latest Version](https://img.shields.io/pypi/v/definition.svg)](https://pypi.python.org/pypi/definition/) | [![PyPi downloads](https://img.shields.io/pypi/dm/definition.svg)](https://pypi.python.org/pypi/definition) |
